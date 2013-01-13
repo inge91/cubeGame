@@ -17,7 +17,6 @@ Cube c = Cube();
 void handleKeypress(unsigned char key, int x, int y) {
 	switch (key) {
 	case 100:
-		std::cout<<"Right key is pressed";
 		c.mmovement = c.RIGHT;
 		break;
 	case 27: //Escape key

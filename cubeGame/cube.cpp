@@ -9,28 +9,33 @@
 
 Cube::Cube()
 {
-	mposx = 0;
+	mposx = 2;
 	mposz = 0;
 	msize = 2;
 	mmovement = NONE;
 	mdegrees = 0;
 }
-
+int i = 0;
 void Cube::drawCube()
 {
 	glPushMatrix();
-
+	
 
 	if(mmovement != NONE)
 	{ 
+		if(i >0)
+		{
+			std::cout<<"Hello";
+		}
 		switch(mmovement)
 		{
-			std::cout<<"Rotating";
+			
 
 		case RIGHT:
-			glTranslatef(msize, -msize,0);
+			std::cout<< msize + msize * mposx * 2<<std::endl;
+			glTranslatef(msize  + (msize * mposx * 2), -msize,0);
 			glRotatef(-mdegrees, 0, 0, 1);
-			glTranslatef(-msize, msize,0);
+			glTranslatef(- msize - (msize * mposx * 2), msize,0);
 				  break;
 		}
 
@@ -38,6 +43,7 @@ void Cube::drawCube()
 		// In case full 90 degrees has occured stop and determine new position
 		if(mdegrees % 90 == 0)
 		{ 
+			i ++ ;
 			// Move one unit 
 			switch(mmovement)
 			{
@@ -52,6 +58,7 @@ void Cube::drawCube()
 		glTranslatef(mposx * (msize*2), 0, mposz * (msize*2));
 		glRotatef(-mdegrees, 0, 0, 1);
 	}
+
 	//glTranslatef(mposx* (2*msize), 0, mposz * (2*msize));
 	glBegin(GL_QUADS);
 
@@ -109,4 +116,11 @@ void Cube::drawCube()
 
 	glEnd();
 	glPopMatrix();
+
+			glBegin(GL_LINES);
+			glColor3f(1, 1, 1);
+
+			glVertex3f(msize  + (msize * mposx * 2), -msize,-100);
+			glVertex3f(msize  + (msize * mposx * 2), -msize,100);
+			glEnd();
 }
