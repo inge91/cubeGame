@@ -19,6 +19,7 @@ public:
 	int mmovement;
 
 	int mdegrees;
+	int morientationx;
 	
 	// The size of half the cube
 	GLfloat msize;

@@ -9,11 +9,12 @@
 
 Cube::Cube()
 {
-	mposx = 2;
+	mposx = 0;
 	mposz = 0;
 	msize = 2;
 	mmovement = NONE;
 	mdegrees = 0;
+	morientationx = mdegrees;
 }
 int i = 0;
 void Cube::drawCube()
@@ -43,6 +44,9 @@ void Cube::drawCube()
 		// In case full 90 degrees has occured stop and determine new position
 		if(mdegrees % 90 == 0)
 		{ 
+			morientationx += mdegrees;
+			morientationx = morientationx % 360;
+			mdegrees = 0;
 			i ++ ;
 			// Move one unit 
 			switch(mmovement)
@@ -56,7 +60,14 @@ void Cube::drawCube()
 	}
 	else{
 		glTranslatef(mposx * (msize*2), 0, mposz * (msize*2));
-		glRotatef(-mdegrees, 0, 0, 1);
+		glRotatef(-morientationx, 0, 0, 1);
+	}
+
+
+	if(mmovement != NONE)
+	{
+		glTranslatef(mposx * (msize*2), 0, mposz * (msize*2));
+		glRotatef(-morientationx, 0, 0, 1);
 	}
 
 	//glTranslatef(mposx* (2*msize), 0, mposz * (2*msize));
