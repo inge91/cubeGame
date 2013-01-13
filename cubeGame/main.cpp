@@ -19,6 +19,9 @@ void handleKeypress(unsigned char key, int x, int y) {
 	case 100:
 		c.mmovement = c.RIGHT;
 		break;
+	case 97:
+		c.mmovement = c.LEFT;
+		break;
 	case 27: //Escape key
 			exit(0);
 	}

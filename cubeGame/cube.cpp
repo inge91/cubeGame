@@ -33,11 +33,16 @@ void Cube::drawCube()
 			
 
 		case RIGHT:
-			std::cout<< msize + msize * mposx * 2<<std::endl;
 			glTranslatef(msize  + (msize * mposx * 2), -msize,0);
 			glRotatef(-mdegrees, 0, 0, 1);
 			glTranslatef(- msize - (msize * mposx * 2), msize,0);
 				  break;
+		case LEFT:
+			glTranslatef(- msize  + (msize * mposx * 2), -msize,0);
+			glRotatef(mdegrees, 0, 0, 1);
+			glTranslatef(msize - (msize * mposx * 2), msize,0);
+				  break;
+
 		}
 
 		mdegrees ++;
@@ -52,7 +57,18 @@ void Cube::drawCube()
 			switch(mmovement)
 			{
 			case RIGHT:
+				morientationx += mdegrees;
+				morientationx = morientationx % 360;
+				mdegrees = 0;
 				mposx ++;
+				break;
+			case LEFT:
+				morientationx -= mdegrees;
+				morientationx = morientationx % 360;
+				mdegrees = 0;
+				mposx --;
+				break;
+			
 			}
 			mmovement = NONE;
 		}
@@ -128,10 +144,4 @@ void Cube::drawCube()
 	glEnd();
 	glPopMatrix();
 
-			glBegin(GL_LINES);
-			glColor3f(1, 1, 1);
-
-			glVertex3f(msize  + (msize * mposx * 2), -msize,-100);
-			glVertex3f(msize  + (msize * mposx * 2), -msize,100);
-			glEnd();
 }
