@@ -15,19 +15,14 @@ Cube::Cube()
 	mmovement = NONE;
 	mdegrees = 0;
 	morientationx = mdegrees;
+	morientationz = mdegrees;
 }
 int i = 0;
 void Cube::drawCube()
 {
 	glPushMatrix();
-	
-
 	if(mmovement != NONE)
 	{ 
-		if(i >0)
-		{
-			std::cout<<"Hello";
-		}
 		switch(mmovement)
 		{
 			
@@ -43,16 +38,25 @@ void Cube::drawCube()
 			glTranslatef(msize - (msize * mposx * 2), msize,0);
 				  break;
 
+		case UP:
+			glTranslatef(0, -msize, - msize  + (msize * mposx * 2) );
+			glRotatef(-mdegrees, 1, 0, 0);
+			glTranslatef(0, msize,  msize - (msize * mposx * 2)   );
+			break;
+			
+		case DOWN:
+			glTranslatef(0, -msize, msize  + (msize * mposx * 2) );
+			glRotatef(mdegrees, 1, 0, 0);
+			glTranslatef(0, msize,  - msize - (msize * mposx * 2) );
+			break;
+
+
 		}
 
 		mdegrees ++;
 		// In case full 90 degrees has occured stop and determine new position
 		if(mdegrees % 90 == 0)
 		{ 
-			morientationx += mdegrees;
-			morientationx = morientationx % 360;
-			mdegrees = 0;
-			i ++ ;
 			// Move one unit 
 			switch(mmovement)
 			{
@@ -68,25 +72,31 @@ void Cube::drawCube()
 				mdegrees = 0;
 				mposx --;
 				break;
+			case UP:
+				morientationz += mdegrees;
+				morientationz = morientationz % 360;
+				mdegrees = 0;
+				mposz --;
+				break;
+			case DOWN:
+				morientationz -= mdegrees;
+				morientationz = morientationz % 360;
+				mdegrees = 0;
+				mposz ++;
+				break;
 			
 			}
 			mmovement = NONE;
 		}
 		
 	}
-	else{
-		glTranslatef(mposx * (msize*2), 0, mposz * (msize*2));
-		glRotatef(-morientationx, 0, 0, 1);
-	}
 
+	// Apply transformation and rotation in x and y direction to show right side
+	glTranslatef(mposx * (msize*2), 0, mposz * (msize*2));
 
-	if(mmovement != NONE)
-	{
-		glTranslatef(mposx * (msize*2), 0, mposz * (msize*2));
-		glRotatef(-morientationx, 0, 0, 1);
-	}
+	glRotatef(morientationx, 0, 0, 1);
+	glRotatef(morientationz, 1, 0, 0);
 
-	//glTranslatef(mposx* (2*msize), 0, mposz * (2*msize));
 	glBegin(GL_QUADS);
 
 	// Draw cube on center

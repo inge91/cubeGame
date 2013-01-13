@@ -22,6 +22,12 @@ void handleKeypress(unsigned char key, int x, int y) {
 	case 97:
 		c.mmovement = c.LEFT;
 		break;
+	case 119: 
+		c.mmovement = c.UP;
+		break;
+	case 115:
+		c.mmovement = c.DOWN;
+		break;
 	case 27: //Escape key
 			exit(0);
 	}
@@ -33,8 +39,6 @@ void initRendering() {
 	glEnable(GL_LIGHT0);
 	glEnable(GL_NORMALIZE);
 	glEnable(GL_COLOR_MATERIAL);
-
-	
 
 }
 
@@ -76,7 +80,7 @@ void drawScene() {
 //Called every 25 milliseconds
 void update(int value) {
 	glutPostRedisplay();
-	glutTimerFunc(25, update, 0);
+	glutTimerFunc(5, update, 0);
 }
 
 int main(int argc, char** argv) {
