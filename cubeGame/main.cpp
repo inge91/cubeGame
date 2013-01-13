@@ -63,14 +63,6 @@ void drawScene() {
 	glRotatef(35, 1,0, 0);
 	glRotatef(-20, 0, 1, 0);
 	
-	/*if (rotating == true)
-	{
-		glTranslatef(boxsize, -boxsize,0);
-		std::cout<< "rotating";
-		glRotatef(-degrees, 0, 0, 1);
-		glTranslatef(-boxsize, boxsize,0);
-	}*/
-	
 	// Draws the cube and handles movement
 	c.drawCube();
 	
