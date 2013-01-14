@@ -156,6 +156,12 @@ void Cube::drawCube()
 
 	glEnd();
 	glPopMatrix();
-	
+}
 
+
+
+void Cube::change_position(int x, int z)
+{
+	mposx = x;
+	mposz = z;
 }

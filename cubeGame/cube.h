@@ -27,10 +27,12 @@ public:
 	GLfloat msize;
 	
 	enum { NONE, UP, DOWN, LEFT, RIGHT };
-	
 
 	// Draw cube on the screen depending on position
 	void drawCube();
+
+	// Changes the position of the cube
+	void change_position(int x, int z);
 	
 };
 
