@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <GL/glut.h>
 #include "cube.h"
+#include "platform.h"
 #include <windows.h>
 
 using namespace std;
@@ -14,19 +15,35 @@ bool rotating = false;
 GLfloat degrees = 1;
 
 Cube c = Cube();
+Platform p = Platform(c);
+
 void handleKeypress(unsigned char key, int x, int y) {
 	switch (key) {
 	case 100:
-		c.mmovement = c.RIGHT;
+		if(c.mmovement == c.NONE)
+		{
+			c.mmovement = c.RIGHT;
+		}	
 		break;
 	case 97:
-		c.mmovement = c.LEFT;
+		if(c.mmovement == c.NONE)
+		{
+			c.mmovement = c.LEFT;
+		}	
+		
 		break;
 	case 119: 
-		c.mmovement = c.UP;
+		if(c.mmovement == c.NONE)
+		{
+			c.mmovement = c.UP;
+		}	
+		
 		break;
 	case 115:
+if(c.mmovement == c.NONE)
+		{
 		c.mmovement = c.DOWN;
+		}	
 		break;
 	case 27: //Escape key
 			exit(0);
@@ -65,22 +82,33 @@ void drawScene() {
 	
 	// Draws the cube and handles movement
 	c.drawCube();
+
+	p.draw_level();
 	
+	/*
+	glBegin(GL_QUADS);
+	glColor3f(1,1,1);
+	glVertex3f(-14, -2, -14);
+	glVertex3f(14, -2, -14);
+	glVertex3f(14, -2, 14);
+	glVertex3f(-14, -2, 14);
+	glEnd();
+	*/
 	glutSwapBuffers();
 }
 
 //Called every 25 milliseconds
 void update(int value) {
 	glutPostRedisplay();
-	glutTimerFunc(5, update, 0);
+	glutTimerFunc(2, update, 0);
 }
 
 int main(int argc, char** argv) {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(400, 400);
-	
-	glutCreateWindow("Putting It All Together - videotutorialsrock.com");
+	glutCreateWindow("Cube Game");
+	//glutFullScreen();
 	initRendering();
 	
 	glutDisplayFunc(drawScene);

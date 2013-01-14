@@ -9,8 +9,8 @@
 
 Cube::Cube()
 {
-	mposx = 0;
-	mposz = 0;
+	mposx = -3;
+	mposz = 3;
 	msize = 2;
 	mmovement = NONE;
 	mdegrees = 0;
@@ -21,7 +21,6 @@ int i = 0;
 void Cube::drawCube()
 {
 
-	glTranslatef(0, 0, mposz * (msize *2));//* (msize*2));
 	glPushMatrix();
 	if(mmovement != NONE)
 	{ 
@@ -41,15 +40,15 @@ void Cube::drawCube()
 				  break;
 
 		case UP:
-			glTranslatef(0, -msize, - msize  + (msize * mposx * 2) );
+			glTranslatef(0, -msize, - msize  + (msize * mposz * 2) );
 			glRotatef(-mdegrees, 1, 0, 0);
-			glTranslatef(0, msize,  msize - (msize * mposx * 2)   );
+			glTranslatef(0, msize,  msize - (msize * mposz * 2)   );
 			break;
 			
 		case DOWN:
-			glTranslatef(0, -msize, msize  + (msize * mposx * 2) );
+			glTranslatef(0, -msize, msize  + (msize * mposz * 2) );
 			glRotatef(mdegrees, 1, 0, 0);
-			glTranslatef(0, msize,  - msize - (msize * mposx * 2) );
+			glTranslatef(0, msize,  - msize - (msize * mposz * 2) );
 			break;
 
 
@@ -94,8 +93,10 @@ void Cube::drawCube()
 	}
 
 	// Apply transformation and rotation in x and y direction to show right side
-
+	glTranslatef(0, 0, mposz * (msize *2));
 	glTranslatef(mposx * (msize*2), 0, 0);
+
+
 	glRotatef(morientationx, 0, 0, 1);
 	glRotatef(morientationz, 1, 0, 0);
 
@@ -156,10 +157,5 @@ void Cube::drawCube()
 	glEnd();
 	glPopMatrix();
 	
-	glBegin(GL_LINES);
-	glVertex3f(-100, -msize, - msize  + (msize * mposz * 2) );
-
-	glVertex3f(100, -msize, - msize  + (msize * mposz * 2) );
-	glEnd();
 
 }

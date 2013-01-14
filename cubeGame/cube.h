@@ -17,7 +17,8 @@ public:
 
 	// keeps track of the direction of movement 
 	int mmovement;
-
+	
+	// Degree of rotation storers
 	int mdegrees;
 	int morientationx;
 	int morientationz;
