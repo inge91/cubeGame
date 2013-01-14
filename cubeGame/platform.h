@@ -19,6 +19,7 @@ class Platform
 
 		// Draws the level in its current state
 		void draw_level();
+		void update();
 		
 	private:
 		// ENUMS to fill in the grid board
@@ -26,14 +27,10 @@ class Platform
 
 		// Size of the panels
 		GLfloat msize;		GLfloat mminx;		GLfloat mmaxz;		Cube * mc;		// Rows of the level, stored in vectors
-		vector<vector <int>> mlevel;
+		int mlevel [7][7];
 
 		// Level fills the level vector
 		void prepare_level();
-
-
-
-
 
 };
 

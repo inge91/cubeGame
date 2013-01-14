@@ -8,87 +8,91 @@ Platform::Platform(Cube *c)
 	mc = c;
 	// Size of the panels sould be as big as the cube is
 	msize = mc->msize;
-	prepare_level();
+	
 	mminx = -14;
 	mmaxz = 14;
-	
-	std::cout<<mc->msize;
+prepare_level();
 }
 
 //TODO: Read from file
 void Platform::prepare_level()
 {
-	vector<int> mrow1;
-	vector<int> mrow2;
-	vector<int> mrow3;
-	vector<int> mrow4;
-	vector<int> mrow5;
-	vector<int> mrow6;
-	vector<int> mrow7;
+	int mrow1[7];
+	int mrow2[7];
+	int mrow3[7];
+	int mrow4[7];
+	int mrow5[7];
+	int mrow6[7];
+	int mrow7[7];
 	
-	mrow1.push_back(START);
-	mrow1.push_back(EMPTY);
-	mrow1.push_back(EMPTY);
-	mrow1.push_back(EMPTY);
-	mrow1.push_back(EMPTY);
-	mrow1.push_back(EMPTY);
-	mrow1.push_back(END);
+	mrow1[0] = START;
+	mrow1[1] = EMPTY;
+	mrow1[2] = EMPTY;
+	mrow1[3] = EMPTY;
+	mrow1[4] = EMPTY;
+	mrow1[5] = EMPTY;
+	mrow1[6] = END;
 
-	mrow2.push_back(ONE);
-	mrow2.push_back(EMPTY);
-	mrow2.push_back(EMPTY);
-	mrow2.push_back(EMPTY);
-	mrow2.push_back(EMPTY);
-	mrow2.push_back(EMPTY);
-	mrow2.push_back(ONE);
+	mrow2[0] = ONE;
+	mrow2[1] = EMPTY;
+	mrow2[2] = EMPTY;
+	mrow2[3] = EMPTY;
+	mrow2[4] = EMPTY;
+	mrow2[5] = EMPTY;
+	mrow2[6] = ONE;
 
-	mrow3.push_back(ONE);
-	mrow3.push_back(EMPTY);
-	mrow3.push_back(EMPTY);
-	mrow3.push_back(EMPTY);
-	mrow3.push_back(EMPTY);
-	mrow3.push_back(EMPTY);
-	mrow3.push_back(ONE);
+	mrow3[0] = ONE;
+	mrow3[1] = EMPTY;
+	mrow3[2] = EMPTY;
+	mrow3[3] = EMPTY;
+	mrow3[4] = EMPTY;
+	mrow3[5] = EMPTY;
+	mrow3[6] = ONE;
 
-	mrow4.push_back(ONE);
-	mrow4.push_back(ONE);
-	mrow4.push_back(ONE);
-	mrow4.push_back(ONE);
-	mrow4.push_back(ONE);
-	mrow4.push_back(ONE);
-	mrow4.push_back(ONE);
+	mrow4[0] = ONE;
+	mrow4[1] = ONE;
+	mrow4[2] = ONE;
+	mrow4[3] = ONE;
+	mrow4[4] = ONE;
+	mrow4[5] = ONE;
+	mrow4[6] = ONE;
 
-	mrow5.push_back(EMPTY);
-	mrow5.push_back(EMPTY);
-	mrow5.push_back(EMPTY);
-	mrow5.push_back(EMPTY);
-	mrow5.push_back(EMPTY);
-	mrow5.push_back(EMPTY);
-	mrow5.push_back(EMPTY);
+	mrow5[0] = EMPTY;
+	mrow5[1] = EMPTY;
+	mrow5[2] = EMPTY;
+	mrow5[3] = EMPTY;
+	mrow5[4] = EMPTY;
+	mrow5[5] = EMPTY;
+	mrow5[6] = EMPTY;
 
-	mrow6.push_back(EMPTY);
-	mrow6.push_back(EMPTY);
-	mrow6.push_back(EMPTY);
-	mrow6.push_back(EMPTY);
-	mrow6.push_back(EMPTY);
-	mrow6.push_back(EMPTY);
-	mrow6.push_back(EMPTY);
+	mrow6[0] = EMPTY;
+	mrow6[1] = EMPTY;
+	mrow6[2] = EMPTY;
+	mrow6[3] = EMPTY;
+	mrow6[4] = EMPTY;
+	mrow6[5] = EMPTY;
+	mrow6[6] = EMPTY;
+	
+	mrow7[0] = EMPTY;
+	mrow7[1] = EMPTY;
+	mrow7[2] = EMPTY;
+	mrow7[3] = EMPTY;
+	mrow7[4] = EMPTY;
+	mrow7[5] = EMPTY;
+	mrow7[6] = EMPTY;
 
-	mrow7.push_back(EMPTY);
-	mrow7.push_back(EMPTY);
-	mrow7.push_back(EMPTY);
-	mrow7.push_back(EMPTY);
-	mrow7.push_back(EMPTY);
-	mrow7.push_back(EMPTY);
-	mrow7.push_back(EMPTY);
+	// Fill the whole playing field
+	for(int j = 0; j < 7; j++)
+	{
+		mlevel[0][j] = mrow1[j];
+		mlevel[1][j] = mrow2[j];
+		mlevel[2][j] = mrow3[j];
+		mlevel[3][j] = mrow4[j];
+		mlevel[4][j] = mrow5[j];
+		mlevel[5][j] = mrow6[j];
+		mlevel[6][j] = mrow7[j];
 
-	mlevel.push_back(mrow1);
-	mlevel.push_back(mrow2);
-	mlevel.push_back(mrow3);
-	mlevel.push_back(mrow4);
-	mlevel.push_back(mrow5);
-	mlevel.push_back(mrow6);
-	mlevel.push_back(mrow7);
+	}
 	mc->change_position(-3, 3);
 }
 
@@ -104,7 +108,7 @@ void Platform::draw_level()
 
 		for( int j = 0; j < 7; j++){
 
-			position = mlevel.at(i).at(j);	
+			position = mlevel[i][j];	
 			
 			switch(position)
 			{
@@ -127,10 +131,10 @@ void Platform::draw_level()
 				break;
 			}
 
-			glVertex3f(mminx + (i *msize*2), -msize, mmaxz - (j*msize*2));
-			glVertex3f(mminx + ((i+1)*msize*2), -msize, mmaxz - (j* msize*2));
-			glVertex3f(mminx + ((i +1)*msize*2), -msize, mmaxz - ((j+1) *2*msize));
-			glVertex3f(mminx + (i *msize*2), -msize, mmaxz - ((j+1) *2*msize));
+			glVertex3f(mminx + (j *msize*2), -msize, mmaxz - (i*msize*2));
+			glVertex3f(mminx + ((j+1)*msize*2), -msize, mmaxz - (i* msize*2));
+			glVertex3f(mminx + ((j +1)*msize*2), -msize, mmaxz - ((i+1) *2*msize));
+			glVertex3f(mminx + (j *msize*2), -msize, mmaxz - ((i+1) *2*msize));
 		}
 	}
 
@@ -138,4 +142,74 @@ void Platform::draw_level()
 
 }
 
+// Update the game state
+void Platform::update(){
+	int x = mc->mposx +3;
+	int y; 
+	if(mc->mposz >0)
+	{
+		y = -mc->mposz + 3;
+	}
+	else
+	{
+		y = mc->mposz + 3;
+	}
 
+	int position = mlevel[y][x];
+	
+	// artificially change the position if outside area
+	if(x < 0 || x > 6 || y > 6 || y < 0)
+	{
+		position = EMPTY;
+	}
+
+	switch(position){
+	// Cube died
+	case EMPTY:
+		prepare_level();
+		break;
+	case END:
+		std::cout<<"Won level";
+		break;
+	}
+
+
+
+	// No movement has occured, don't change anything
+	if(mc->mposx == mc->mprevx && mc->mposz == mc->mprevz)
+	{
+		// Nothing
+	}
+	else
+	{
+		int j = mc->mprevx +3;
+		int i; 
+		if(mc->mprevz >0)
+		{
+
+			i = -mc->mprevz + 3;
+		}
+		else
+		{
+			i = mc->mprevz + 3;
+		}
+
+		int prev_position = mlevel[i][j];
+
+		switch(prev_position)
+		{
+			case EMPTY:
+			//Should never occur
+			break;
+			case ONE:
+			case TWO:
+			case THREE:
+				mlevel[i][j] = prev_position -1;
+				break;
+		}
+		// Set them alike for unnecessary double checking
+		mc->mprevx = mc->mposx;
+		mc->mprevz = mc->mposz;
+	}
+	
+}

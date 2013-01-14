@@ -82,7 +82,8 @@ void drawScene() {
 	// Draws the cube and handles movement
 	c.drawCube();
 	
-	// c.update();
+	// Update the board and see if cube didn't fall
+	p.update();
 
 	// Draw the level
 	p.draw_level();

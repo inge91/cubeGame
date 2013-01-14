@@ -11,6 +11,9 @@ Cube::Cube()
 {
 	mposx = -3;
 	mposz = 3;
+	mprevx = mposx;
+	mprevz = mposz;
+
 	msize = 2;
 	mmovement = NONE;
 	mdegrees = 0;
@@ -65,24 +68,28 @@ void Cube::drawCube()
 				morientationx += mdegrees;
 				morientationx = morientationx % 360;
 				mdegrees = 0;
+				mprevx =mposx;
 				mposx ++;
 				break;
 			case LEFT:
 				morientationx -= mdegrees;
 				morientationx = morientationx % 360;
 				mdegrees = 0;
+				mprevx =mposx;
 				mposx --;
 				break;
 			case UP:
 				morientationz += mdegrees;
 				morientationz = morientationz % 360;
 				mdegrees = 0;
+				mprevz =mposz;
 				mposz --;
 				break;
 			case DOWN:
 				morientationz -= mdegrees;
 				morientationz = morientationz % 360;
 				mdegrees = 0;
+				mprevz =mposz;
 				mposz ++;
 				break;
 			
@@ -158,8 +165,6 @@ void Cube::drawCube()
 	glPopMatrix();
 }
 
-
-
 void Cube::change_position(int x, int z)
 {
 	mposx = x;
@@ -169,3 +174,5 @@ void Cube::change_position(int x, int z)
 	mprevx = mposx;
 	mprevz = mposz;
 }
+
+
