@@ -3,13 +3,16 @@
 #include "cube.h"
 
 
-Platform::Platform(Cube c)
+Platform::Platform(Cube *c)
 {
+	mc = c;
 	// Size of the panels sould be as big as the cube is
-	msize = c.msize;
+	msize = mc->msize;
 	prepare_level();
 	mminx = -14;
 	mmaxz = 14;
+	
+	std::cout<<mc->msize;
 }
 
 //TODO: Read from file
@@ -86,6 +89,7 @@ void Platform::prepare_level()
 	mlevel.push_back(mrow5);
 	mlevel.push_back(mrow6);
 	mlevel.push_back(mrow7);
+	mc->change_position(-3, 3);
 }
 
 

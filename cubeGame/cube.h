@@ -15,6 +15,9 @@ public:
 	GLfloat mposx;
 	GLfloat mposz;
 
+	GLfloat mprevx;
+	GLfloat mprevz;
+
 	// keeps track of the direction of movement 
 	int mmovement;
 	

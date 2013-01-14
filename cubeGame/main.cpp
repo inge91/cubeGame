@@ -15,8 +15,7 @@ bool rotating = false;
 GLfloat degrees = 1;
 
 Cube c = Cube();
-Platform p = Platform(c);
-
+Platform p = Platform(&c);
 void handleKeypress(unsigned char key, int x, int y) {
 	switch (key) {
 	case 100:
@@ -82,18 +81,12 @@ void drawScene() {
 	
 	// Draws the cube and handles movement
 	c.drawCube();
+	
+	// c.update();
 
+	// Draw the level
 	p.draw_level();
 	
-	/*
-	glBegin(GL_QUADS);
-	glColor3f(1,1,1);
-	glVertex3f(-14, -2, -14);
-	glVertex3f(14, -2, -14);
-	glVertex3f(14, -2, 14);
-	glVertex3f(-14, -2, 14);
-	glEnd();
-	*/
 	glutSwapBuffers();
 }
 
@@ -106,7 +99,7 @@ void update(int value) {
 int main(int argc, char** argv) {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-	glutInitWindowSize(400, 400);
+	glutInitWindowSize(800, 600);
 	glutCreateWindow("Cube Game");
 	//glutFullScreen();
 	initRendering();

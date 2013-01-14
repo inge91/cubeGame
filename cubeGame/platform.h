@@ -15,7 +15,7 @@ using namespace std;
 class Platform
 {
 	public:
-		Platform(Cube c);
+		Platform(Cube *c);
 
 		// Draws the level in its current state
 		void draw_level();
@@ -25,7 +25,7 @@ class Platform
 		enum {EMPTY,ONE, TWO, THREE, START, END};
 
 		// Size of the panels
-		GLfloat msize;		GLfloat mminx;		GLfloat mmaxz;		// Rows of the level, stored in vectors
+		GLfloat msize;		GLfloat mminx;		GLfloat mmaxz;		Cube * mc;		// Rows of the level, stored in vectors
 		vector<vector <int>> mlevel;
 
 		// Level fills the level vector

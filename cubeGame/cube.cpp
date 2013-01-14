@@ -17,7 +17,7 @@ Cube::Cube()
 	morientationx = mdegrees;
 	morientationz = mdegrees;
 }
-int i = 0;
+
 void Cube::drawCube()
 {
 
@@ -164,4 +164,8 @@ void Cube::change_position(int x, int z)
 {
 	mposx = x;
 	mposz = z;
+	
+	// There are no previous positions yet
+	mprevx = mposx;
+	mprevz = mposz;
 }
