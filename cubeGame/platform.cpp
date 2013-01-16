@@ -8,7 +8,7 @@ Platform::Platform(Cube *c)
 	mc = c;
 	// Size of the panels sould be as big as the cube is
 	msize = mc->msize;
-	mlevelno = 1;
+	mlevelno = "2";
 	mminx = -14;
 	mmaxz = 14;
 	prepare_level();
@@ -18,9 +18,7 @@ Platform::Platform(Cube *c)
 void Platform::prepare_level()
 {
 
-	char * no;
-	itoa(mlevelno, no, 10);
-	string leveltxt = string("level") +  string(no) + string(".txt");
+	string leveltxt = string("level") +  string(mlevelno) + string(".txt");
 	ifstream myfile (leveltxt);
 	//myfile.open("level1.txt", ios::out);
 
@@ -40,6 +38,7 @@ void Platform::prepare_level()
 	getline(myfile,line6);
 	getline(myfile,line7);
 
+	myfile.close();
 	int mrow1[7];
 	int mrow2[7];
 	int mrow3[7];
@@ -116,6 +115,8 @@ void Platform::prepare_level()
 		mlevel[6][j] = mrow7[j];
 
 	}
+	//TODO: dynamic positioner
+	mc->change_position(-3, 3);
 }
 
 
@@ -166,16 +167,14 @@ void Platform::draw_level()
 
 // Update the game state
 void Platform::update(){
+	// No movement has occured, don't change anything
+	if(mc->mposx == mc->mprevx && mc->mposz == mc->mprevz)
+	{
+		// Nothing
+	}
+	else{ 
 	int x = mc->mposx +3;
-	int y; 
-	if(mc->mposz >0)
-	{
-		y = -mc->mposz + 3;
-	}
-	else
-	{
-		y = mc->mposz + 3;
-	}
+	int y = -mc->mprevz + 3; 
 
 	int position = mlevel[y][x];
 	
@@ -190,13 +189,15 @@ void Platform::update(){
 	case EMPTY:
 		prepare_level();
 		break;
+	case TWO:
+		break;
 	case END:
 		std::cout<<"Won level";
+		//mlevelno ++;
+		//prepare_level();
 		break;
 	}
-
-
-
+	}
 	// No movement has occured, don't change anything
 	if(mc->mposx == mc->mprevx && mc->mposz == mc->mprevz)
 	{
@@ -205,16 +206,7 @@ void Platform::update(){
 	else
 	{
 		int j = mc->mprevx +3;
-		int i; 
-		if(mc->mprevz >0)
-		{
-
-			i = -mc->mprevz + 3;
-		}
-		else
-		{
-			i = mc->mprevz + 3;
-		}
+		int i = -mc->mprevz +3;
 
 		int prev_position = mlevel[i][j];
 
@@ -224,7 +216,11 @@ void Platform::update(){
 			//Should never occur
 			break;
 			case ONE:
+				mlevel[i][j] = prev_position -1;
+				break;
 			case TWO:
+				mlevel[i][j] = prev_position -1;
+				break;
 			case THREE:
 				mlevel[i][j] = prev_position -1;
 				break;
@@ -232,6 +228,40 @@ void Platform::update(){
 		// Set them alike for unnecessary double checking
 		mc->mprevx = mc->mposx;
 		mc->mprevz = mc->mposz;
+
 	}
 	
+}
+void Platform::print_board(){
+		
+	for(int i = 0; i < 7; i ++)
+	{
+		cout<<"\n";
+		for(int j = 0; j < 7; j++)
+		{
+			cout<<mlevel[i][j];
+			cout<<" ";
+		}
+	}
+
+}
+
+void Platform::print_position(int x, int y){
+		
+	for(int i = 0; i < 7; i ++)
+	{
+		cout<<"\n";
+		for(int j = 0; j < 7; j++)
+		{
+			if(i == x && y == j)
+			{
+				cout<<"x";
+			}
+			else{ 
+				cout<<mlevel[i][j];
+			}
+			cout<<" ";
+		}
+	}
+
 }

@@ -29,10 +29,13 @@ class Platform
 		// Size of the panels
 		GLfloat msize;		GLfloat mminx;		GLfloat mmaxz;		Cube * mc;		// Rows of the level, stored in vectors
 		int mlevel [7][7];
-		int mlevelno;
+		string mlevelno;
 
 		// Level fills the level vector
 		void prepare_level();
+
+		void print_board();
+		void print_position(int x, int y);
 
 };
 
