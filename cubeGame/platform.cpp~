@@ -8,20 +8,17 @@ Platform::Platform(Cube *c)
 	mc = c;
 	// Size of the panels sould be as big as the cube is
 	msize = mc->msize;
-	mlevelno = 1;
+	
 	mminx = -14;
 	mmaxz = 14;
-	prepare_level();
+prepare_level();
 }
 
 //TODO: Read from file
 void Platform::prepare_level()
 {
 
-	char * no;
-	itoa(mlevelno, no, 10);
-	string leveltxt = string("level") +  string(no) + string(".txt");
-	ifstream myfile (leveltxt);
+	ifstream myfile ("level1.txt");
 	//myfile.open("level1.txt", ios::out);
 
 	string line1;
@@ -40,6 +37,9 @@ void Platform::prepare_level()
 	getline(myfile,line6);
 	getline(myfile,line7);
 
+    cout << line1 << endl;
+    cout << line7 << endl;
+
 	int mrow1[7];
 	int mrow2[7];
 	int mrow3[7];
@@ -48,61 +48,61 @@ void Platform::prepare_level()
 	int mrow6[7];
 	int mrow7[7];
 	
-	mrow1[0]=line7[0]-'0';
-	mrow1[1]=line7[2]-'0';
-	mrow1[2]=line7[4]-'0';
-	mrow1[3]=line7[6]-'0';
-	mrow1[4]=line7[8]-'0';
-	mrow1[5]=line7[10]-'0';
-	mrow1[6]=line7[12]-'0';
+	mrow1[0] = atoi((const char*) line7[0]);
+	mrow1[1] = EMPTY;
+	mrow1[2] = EMPTY;
+	mrow1[3] = EMPTY;
+	mrow1[4] = EMPTY;
+	mrow1[5] = EMPTY;
+	mrow1[6] = END;
 
-	mrow2[0]=line6[0]-'0';
-	mrow2[1]=line6[2]-'0';
-	mrow2[2]=line6[4]-'0';
-	mrow2[3]=line6[6]-'0';
-	mrow2[4]=line6[8]-'0';
-	mrow2[5]=line6[10]-'0';
-	mrow2[6]=line6[12]-'0';
+	mrow2[0] = ONE;
+	mrow2[1] = EMPTY;
+	mrow2[2] = EMPTY;
+	mrow2[3] = EMPTY;
+	mrow2[4] = EMPTY;
+	mrow2[5] = EMPTY;
+	mrow2[6] = ONE;
 
-	mrow3[0]=line5[0]-'0';
-	mrow3[1]=line5[2]-'0';
-	mrow3[2]=line5[4]-'0';
-	mrow3[3]=line5[6]-'0';
-	mrow3[4]=line5[8]-'0';
-	mrow3[5]=line5[10]-'0';
-	mrow3[6]=line5[12]-'0';
+	mrow3[0] = ONE;
+	mrow3[1] = EMPTY;
+	mrow3[2] = EMPTY;
+	mrow3[3] = EMPTY;
+	mrow3[4] = EMPTY;
+	mrow3[5] = EMPTY;
+	mrow3[6] = ONE;
 
-	mrow4[0]=line4[0]-'0';
-	mrow4[1]=line4[2]-'0';
-	mrow4[2]=line4[4]-'0';
-	mrow4[3]=line4[6]-'0';
-	mrow4[4]=line4[8]-'0';
-	mrow4[5]=line4[10]-'0';
-	mrow4[6]=line4[12]-'0';
+	mrow4[0] = ONE;
+	mrow4[1] = ONE;
+	mrow4[2] = ONE;
+	mrow4[3] = ONE;
+	mrow4[4] = ONE;
+	mrow4[5] = ONE;
+	mrow4[6] = ONE;
 
-	mrow5[0]=line3[0]-'0';
-	mrow5[1]=line3[2]-'0';
-	mrow5[2]=line3[4]-'0';
-	mrow5[3]=line3[6]-'0';
-	mrow5[4]=line3[8]-'0';
-	mrow5[5]=line3[10]-'0';
-	mrow5[6]=line3[12]-'0';
+	mrow5[0] = EMPTY;
+	mrow5[1] = EMPTY;
+	mrow5[2] = EMPTY;
+	mrow5[3] = EMPTY;
+	mrow5[4] = EMPTY;
+	mrow5[5] = EMPTY;
+	mrow5[6] = EMPTY;
 
-	mrow6[0]=line2[0]-'0';
-	mrow6[1]=line2[2]-'0';
-	mrow6[2]=line2[4]-'0';
-	mrow6[3]=line2[6]-'0';
-	mrow6[4]=line2[8]-'0';
-	mrow6[5]=line2[10]-'0';
-	mrow6[6]=line2[12]-'0';
-
-	mrow7[0]=line1[0]-'0';
-	mrow7[1]=line1[2]-'0';
-	mrow7[2]=line1[4]-'0';
-	mrow7[3]=line1[6]-'0';
-	mrow7[4]=line1[8]-'0';
-	mrow7[5]=line1[10]-'0';
-	mrow7[6]=line1[12]-'0';
+	mrow6[0] = EMPTY;
+	mrow6[1] = EMPTY;
+	mrow6[2] = EMPTY;
+	mrow6[3] = EMPTY;
+	mrow6[4] = EMPTY;
+	mrow6[5] = EMPTY;
+	mrow6[6] = EMPTY;
+	
+	mrow7[0] = EMPTY;
+	mrow7[1] = EMPTY;
+	mrow7[2] = EMPTY;
+	mrow7[3] = EMPTY;
+	mrow7[4] = EMPTY;
+	mrow7[5] = EMPTY;
+	mrow7[6] = EMPTY;
 
 	// Fill the whole playing field
 	for(int j = 0; j < 7; j++)
@@ -116,6 +116,7 @@ void Platform::prepare_level()
 		mlevel[6][j] = mrow7[j];
 
 	}
+	mc->change_position(-3, 3);
 }
 
 
@@ -235,3 +236,5 @@ void Platform::update(){
 	}
 	
 }
+
+

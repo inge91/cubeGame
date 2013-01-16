@@ -8,6 +8,7 @@
 #include <fstream>
 #include <iostream>
 #include <stdlib.h>
+#include <string>
 #include <GL/glut.h>
 
 using namespace std;
@@ -28,6 +29,7 @@ class Platform
 		// Size of the panels
 		GLfloat msize;		GLfloat mminx;		GLfloat mmaxz;		Cube * mc;		// Rows of the level, stored in vectors
 		int mlevel [7][7];
+		int mlevelno;
 
 		// Level fills the level vector
 		void prepare_level();
