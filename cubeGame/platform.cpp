@@ -8,7 +8,7 @@ Platform::Platform(Cube *c)
 	mc = c;
 	// Size of the panels sould be as big as the cube is
 	msize = mc->msize;
-	mlevelno = "2";
+	mlevelno = "1";
 	mminx = -14;
 	mmaxz = 14;
 	prepare_level();
@@ -20,6 +20,16 @@ void Platform::prepare_level()
 
 	string leveltxt = string("level") +  string(mlevelno) + string(".txt");
 	ifstream myfile (leveltxt);
+
+	if( myfile == NULL)
+	{
+		glRasterPos2i(100, 120);
+		glColor4f(0, 0 , 1 ,0);
+	//	glutStrokeString(GLUT_BITMAP_HELVETICA_18, "HELLO");
+
+	}
+	else{
+
 	//myfile.open("level1.txt", ios::out);
 
 	string line1;
@@ -39,6 +49,7 @@ void Platform::prepare_level()
 	getline(myfile,line7);
 
 	myfile.close();
+
 	int mrow1[7];
 	int mrow2[7];
 	int mrow3[7];
@@ -113,10 +124,10 @@ void Platform::prepare_level()
 		mlevel[4][j] = mrow5[j];
 		mlevel[5][j] = mrow6[j];
 		mlevel[6][j] = mrow7[j];
-
 	}
 	//TODO: dynamic positioner
 	mc->change_position(-3, 3);
+	}
 }
 
 
@@ -174,15 +185,16 @@ void Platform::update(){
 	}
 	else{ 
 	int x = mc->mposx +3;
-	int y = -mc->mprevz + 3; 
+	int y = -mc->mposz + 3; 
 
 	int position = mlevel[y][x];
-	
+
 	// artificially change the position if outside area
 	if(x < 0 || x > 6 || y > 6 || y < 0)
 	{
 		position = EMPTY;
 	}
+	print_position(y, x);
 
 	switch(position){
 	// Cube died
@@ -192,9 +204,16 @@ void Platform::update(){
 	case TWO:
 		break;
 	case END:
-		std::cout<<"Won level";
-		//mlevelno ++;
-		//prepare_level();
+		 // If not all are y
+		 if(unattended())
+		 {
+			 //Nothing
+		 }
+		 else{
+			std::cout<<"Won level";
+			update_level();
+			prepare_level();
+		 }
 		break;
 	}
 	}
@@ -264,4 +283,62 @@ void Platform::print_position(int x, int y){
 		}
 	}
 
+		cout<<"\n";
+}
+
+bool Platform::unattended()
+{
+	int l = 1;
+	int position;
+	for(int i = 0; i < 7; i ++)
+	{
+		for(int j = 0; j < 7; j++)
+		{
+			position = mlevel[i][j];
+			switch(position)
+			{
+			case ONE:
+				if(l > 0)
+				{
+					l--;
+				}
+				else{
+					return true;
+				}
+				break;
+			case TWO:
+				if(l > 0)
+				{
+					l--;
+				}
+				else{
+					return true;
+				}
+				break;
+			case THREE:
+				if(l > 0)
+				{
+					l--;
+				}
+				else{
+					return true;
+				}
+				break;
+			}
+		}
+	}
+
+		return false;
+}
+
+
+void Platform::update_level()
+{
+	int level;
+	level = mlevelno[0] - '0';
+	level ++;
+	char l[10];
+	_itoa(level, l, 10);
+	mlevelno = string(l);
+	cout<<mlevelno;
 }

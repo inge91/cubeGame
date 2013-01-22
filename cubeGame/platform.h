@@ -9,6 +9,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <string>
+#include <GL/freeglut.h>
 #include <GL/glut.h>
 
 using namespace std;
@@ -33,9 +34,16 @@ class Platform
 
 		// Level fills the level vector
 		void prepare_level();
+		// Update to next level
+		void update_level();
 
+		// Debug prints
 		void print_board();
 		void print_position(int x, int y);
+
+		// returns true if still unvisited tiles
+		// else false
+		bool unattended();
 
 };
 
