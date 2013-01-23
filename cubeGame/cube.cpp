@@ -21,6 +21,9 @@ Cube::Cube()
 	morientationz = mdegrees;
 }
 
+GLfloat xprev=0;
+GLfloat zprev=0;
+
 void Cube::drawCube()
 {
 
@@ -106,6 +109,25 @@ void Cube::drawCube()
 
 	glRotatef(morientationx, 0, 0, 1);
 	glRotatef(morientationz, 1, 0, 0);
+	if(xprev != morientationx)
+	{
+		std::cout<<"morientation x"<<std::endl;
+		std::cout<<morientationx<<std::endl;
+		std::cout<<"morientation z"<<std::endl;
+		std::cout<<morientationz<<std::endl;
+		std::cout<<"\n";
+		xprev = morientationx;
+
+	}
+	if(zprev != morientationz)
+	{
+		std::cout<<"morientation x"<<std::endl;
+		std::cout<<morientationx<<std::endl;
+		std::cout<<"morientation z"<<std::endl;
+		std::cout<<morientationz<<std::endl;
+		std::cout<<"\n";
+		zprev = morientationz;
+	}
 
 	glBegin(GL_QUADS);
 
