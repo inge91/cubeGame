@@ -11,7 +11,9 @@
 #include <string>
 #include <GL/freeglut.h>
 #include <GL/glut.h>
-
+#include <gl\gl.h>                        // Header File For The OpenGL32 Library
+#include <gl\glu.h>                       // Header File For The GLu32 Library
+#include <Windows.h> 
 using namespace std;
 
 class Platform
@@ -22,6 +24,7 @@ class Platform
 		// Draws the level in its current state
 		void draw_level();
 		void update();
+		void set_sound();
 		
 	private:
 		// ENUMS to fill in the grid board
@@ -45,7 +48,10 @@ class Platform
 		// else false
 		bool unattended();
 
+		bool mmute;
+
 };
+
 
 
 #endif

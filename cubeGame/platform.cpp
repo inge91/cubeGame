@@ -12,6 +12,7 @@ Platform::Platform(Cube *c)
 	mminx = -14;
 	mmaxz = 14;
 	prepare_level();
+	mmute = mc->mmute;
 }
 
 //TODO: Read from file
@@ -23,8 +24,9 @@ void Platform::prepare_level()
 
 	if( myfile == NULL)
 	{
-		glRasterPos2i(100, 120);
-		glColor4f(0, 0 , 1 ,0);
+//		glRasterPos2i(100, 120);
+//		glColor4f(0, 0 , 1 ,0);
+		//glutPrint(1.0f, 1.0f, glutFonts[4], "Hello World!", 1.0f, 0.0f, 0.0f, 0.5f);
 	//	glutStrokeString(GLUT_BITMAP_HELVETICA_18, "HELLO");
 
 	}
@@ -199,6 +201,11 @@ void Platform::update(){
 	switch(position){
 	// Cube died
 	case EMPTY:
+			if(!mmute)
+			{
+				PlaySound(L"fall.wav", NULL, SND_ASYNC|SND_FILENAME);
+			}
+
 		prepare_level();
 		break;
 	case TWO:
@@ -211,6 +218,11 @@ void Platform::update(){
 		 }
 		 else{
 			std::cout<<"Won level";
+			if(!mmute)
+			{
+				PlaySound(L"win2.wav", NULL, SND_SYNC|SND_FILENAME);
+			}
+
 			update_level();
 			prepare_level();
 		 }
@@ -251,6 +263,8 @@ void Platform::update(){
 	}
 	
 }
+
+// Debug console printer
 void Platform::print_board(){
 		
 	for(int i = 0; i < 7; i ++)
@@ -265,6 +279,7 @@ void Platform::print_board(){
 
 }
 
+// Debug console printer
 void Platform::print_position(int x, int y){
 		
 	for(int i = 0; i < 7; i ++)
@@ -307,23 +322,10 @@ bool Platform::unattended()
 				}
 				break;
 			case TWO:
-				if(l > 0)
-				{
-					l--;
-				}
-				else{
 					return true;
-				}
 				break;
 			case THREE:
-				if(l > 0)
-				{
-					l--;
-				}
-				else{
 					return true;
-				}
-				break;
 			}
 		}
 	}
@@ -342,3 +344,10 @@ void Platform::update_level()
 	mlevelno = string(l);
 	cout<<mlevelno;
 }
+
+
+void Platform::set_sound()
+{
+	mmute = !mmute;
+}
+

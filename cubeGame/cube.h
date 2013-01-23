@@ -5,12 +5,14 @@
 #include "StdAfx.h"
 #include <GL/glut.h>
 #include <list>
+#include <windows.h> 
+#include <mmsystem.h>
 
 class Cube{
 
 public:	
 	//Constructor
-	Cube();
+	Cube(bool mute);
 
 	// Position in grid coordinates
 	GLfloat mposx;
@@ -33,6 +35,8 @@ public:
 	enum { NONE, UP, DOWN, LEFT, RIGHT };
 
 	enum{EMPTY, X, Y, NEGX, NEGY};
+
+	bool mmute;
 	
 
 	// Contains the sequence of rotations for the cube
@@ -43,6 +47,8 @@ public:
 
 	// Changes the position of the cube
 	void change_position(int x, int z);
+
+	void set_sound();
 	
 };
 

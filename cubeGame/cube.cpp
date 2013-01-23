@@ -7,12 +7,14 @@
 #include "cube.h"
 
 
-Cube::Cube()
+Cube::Cube(bool mute)
 {
 	mposx = -3;
 	mposz = 3;
 	mprevx = mposx;
 	mprevz = mposz;
+
+	mmute = mute;
 
 	msize = 2;
 	mmovement = NONE;
@@ -109,6 +111,13 @@ void Cube::drawCube()
 			
 			}
 			mmovement = NONE;
+			//PlaySound( (LPCWSTR) "hit.wav", NULL, SND_FILENAME |SND_ASYNC|SND_SYSTEM);
+		
+			if(!mmute)
+			{
+
+				PlaySound(L"hit3.wav", NULL, SND_ASYNC|SND_FILENAME);
+			}
 		}
 		
 	}
@@ -205,6 +214,11 @@ void Cube::change_position(int x, int z)
 	// There are no previous positions yet
 	mprevx = mposx;
 	mprevz = mposz;
+}
+
+void Cube::set_sound()
+{
+	mmute = !mmute;
 }
 
 
