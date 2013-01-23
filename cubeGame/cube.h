@@ -4,6 +4,7 @@
 #define CUBE_H_INCLUDED
 #include "StdAfx.h"
 #include <GL/glut.h>
+#include <list>
 
 class Cube{
 
@@ -31,6 +32,12 @@ public:
 	
 	enum { NONE, UP, DOWN, LEFT, RIGHT };
 
+	enum{EMPTY, X, Y, NEGX, NEGY};
+	
+
+	// Contains the sequence of rotations for the cube
+	std::list<int> msequence;
+	
 	// Draw cube on the screen depending on position
 	void drawCube();
 

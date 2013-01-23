@@ -21,15 +21,18 @@ Cube::Cube()
 	morientationz = mdegrees;
 }
 
-GLfloat xprev=0;
-GLfloat zprev=0;
+GLfloat xprev=-99;
+GLfloat zprev=-99;
+bool first = true;
+int movement = 0;
 
 void Cube::drawCube()
 {
-
 	glPushMatrix();
 	if(mmovement != NONE)
 	{ 
+		xprev = morientationx;
+		zprev = morientationz;
 		switch(mmovement)
 		{
 			
@@ -38,23 +41,27 @@ void Cube::drawCube()
 			glTranslatef(msize  + (msize * mposx * 2), -msize,0);
 			glRotatef(-mdegrees, 0, 0, 1);
 			glTranslatef(- msize - (msize * mposx * 2), msize,0);
+			movement = RIGHT;
 				  break;
 		case LEFT:
 			glTranslatef(- msize  + (msize * mposx * 2), -msize,0);
 			glRotatef(mdegrees, 0, 0, 1);
 			glTranslatef(msize - (msize * mposx * 2), msize,0);
+			movement = LEFT;
 				  break;
 
 		case UP:
 			glTranslatef(0, -msize, - msize  + (msize * mposz * 2) );
 			glRotatef(-mdegrees, 1, 0, 0);
 			glTranslatef(0, msize,  msize - (msize * mposz * 2)   );
+			movement = UP;
 			break;
 			
 		case DOWN:
 			glTranslatef(0, -msize, msize  + (msize * mposz * 2) );
 			glRotatef(mdegrees, 1, 0, 0);
 			glTranslatef(0, msize,  - msize - (msize * mposz * 2) );
+			movement = DOWN;
 			break;
 
 
@@ -73,6 +80,7 @@ void Cube::drawCube()
 				mdegrees = 0;
 				mprevx =mposx;
 				mposx ++;
+				msequence.push_front(X);
 				break;
 			case LEFT:
 				morientationx -= mdegrees;
@@ -80,6 +88,7 @@ void Cube::drawCube()
 				mdegrees = 0;
 				mprevx =mposx;
 				mposx --;
+				msequence.push_front(NEGX);
 				break;
 			case UP:
 				morientationz += mdegrees;
@@ -87,6 +96,7 @@ void Cube::drawCube()
 				mdegrees = 0;
 				mprevz =mposz;
 				mposz --;
+				msequence.push_front(Y);
 				break;
 			case DOWN:
 				morientationz -= mdegrees;
@@ -94,6 +104,7 @@ void Cube::drawCube()
 				mdegrees = 0;
 				mprevz =mposz;
 				mposz ++;
+				msequence.push_front(NEGY);
 				break;
 			
 			}
@@ -103,32 +114,31 @@ void Cube::drawCube()
 	}
 
 	// Apply transformation and rotation in x and y direction to show right side
-	glTranslatef(0, 0, mposz * (msize *2));
 	glTranslatef(mposx * (msize*2), 0, 0);
+	glTranslatef(0, 0, mposz * (msize *2));
 
-
-	glRotatef(morientationx, 0, 0, 1);
-	glRotatef(morientationz, 1, 0, 0);
-	if(xprev != morientationx)
+	int value;
+	std::list<int>::const_iterator iterator;
+	for(iterator = msequence.begin(); iterator != msequence.end(); ++iterator)
 	{
-		std::cout<<"morientation x"<<std::endl;
-		std::cout<<morientationx<<std::endl;
-		std::cout<<"morientation z"<<std::endl;
-		std::cout<<morientationz<<std::endl;
-		std::cout<<"\n";
-		xprev = morientationx;
-
+		value = *iterator;
+		switch(value)
+		{
+		case X:
+		glRotatef(90, 0, 0, 1);
+		break;
+		case NEGX:
+		glRotatef(-90, 0, 0, 1);
+		break;
+		case Y:
+		glRotatef(90, 1, 0, 0);
+		break;
+		case NEGY:
+		glRotatef(-90, 1, 0, 0);
+		break;
+		
+		}
 	}
-	if(zprev != morientationz)
-	{
-		std::cout<<"morientation x"<<std::endl;
-		std::cout<<morientationx<<std::endl;
-		std::cout<<"morientation z"<<std::endl;
-		std::cout<<morientationz<<std::endl;
-		std::cout<<"\n";
-		zprev = morientationz;
-	}
-
 	glBegin(GL_QUADS);
 
 	// Draw cube on center
@@ -191,7 +201,7 @@ void Cube::change_position(int x, int z)
 {
 	mposx = x;
 	mposz = z;
-	
+	msequence.clear();
 	// There are no previous positions yet
 	mprevx = mposx;
 	mprevz = mposz;
