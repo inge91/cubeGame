@@ -135,8 +135,9 @@ void Platform::prepare_level()
 
 void Platform::draw_level()
 {
+
 	int position;
-	//mrow1 = mlevel.pop_back();
+
 	glBegin(GL_QUADS);
 
 	// Draw the board pane for pane
@@ -345,6 +346,10 @@ void Platform::update_level()
 	cout<<mlevelno;
 }
 
+string Platform::get_level()
+{
+	return mlevelno;
+}
 
 void Platform::set_sound()
 {

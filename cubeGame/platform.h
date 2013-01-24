@@ -25,6 +25,7 @@ class Platform
 		void draw_level();
 		void update();
 		void set_sound();
+		string get_level();
 		
 	private:
 		// ENUMS to fill in the grid board
