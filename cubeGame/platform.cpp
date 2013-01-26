@@ -3,6 +3,14 @@
 #include "cube.h"
 
 
+Platform* g_CurrentInstance;
+
+extern "C"
+void drawCallback()
+{
+  g_CurrentInstance->draw();
+}
+
 Platform::Platform(Cube *c)
 {
 	mc = c;
@@ -13,29 +21,18 @@ Platform::Platform(Cube *c)
 	mmaxz = 14;
 	prepare_level();
 	mmute = mc->mmute;
+	mdegrees = 0;
+}
+
+void Platform::setupDrawCallback()
+{
+  g_CurrentInstance = this;
+  glutDisplayFunc(::drawCallback);
 }
 
 
-void Platform::win_animation()
+void Platform::draw()
 {
-
-}
-
-
-//TODO: Read from file
-void Platform::prepare_level()
-{
-
-	string leveltxt = string("level") +  string(mlevelno) + string(".txt");
-	ifstream myfile (leveltxt);
-
-	if( myfile == NULL)
-	{
-
-
-		int i = 0;
-		while(true)
-		{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glMatrixMode(GL_MODELVIEW);
@@ -58,17 +55,30 @@ void Platform::prepare_level()
 		glPushMatrix();
 		glTranslatef(0, 0, -50);
 		glRotatef(35, 1,0, 0);
-		glRotatef(-20-i, 0, 1, 0);
+		glRotatef(-20-mdegrees, 0, 1, 0);
 		mc->drawCube();
 		draw_level();
 		glPopMatrix();
 		Sleep(10);
 		glutSwapBuffers();
-		i++;
-		if(i>360)
-		{ i -=360;
+		mdegrees++;
+		if(mdegrees>360)
+		{ mdegrees -=360;
 		}
-		}
+}
+
+
+//TODO: Read from file
+void Platform::prepare_level()
+{
+
+	string leveltxt = string("level") +  string(mlevelno) + string(".txt");
+	ifstream myfile (leveltxt);
+
+	if( myfile == NULL)
+	{
+		setupDrawCallback();
+
 	}
 	else{
 

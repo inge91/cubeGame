@@ -26,13 +26,20 @@ class Platform
 		void update();
 		void set_sound();
 		string get_level();
+
+		void draw();
+
+		int mdegrees;
 		
 	private:
+
+		void setupDrawCallback();
+
 		// ENUMS to fill in the grid board
 		enum {EMPTY,ONE, TWO, THREE, START, END};
 
 		// Size of the panels
-		GLfloat msize;		GLfloat mminx;		GLfloat mmaxz;		Cube * mc;		// Rows of the level, stored in vectors
+		GLfloat msize;		GLfloat mminx;		GLfloat mmaxz;		Cube * mc;		// Rows of the level, stored in vectors
 		int mlevel [7][7];
 		string mlevelno;
 
@@ -51,7 +58,6 @@ class Platform
 
 		bool mmute;
 
-		void win_animation();
 
 };
 
