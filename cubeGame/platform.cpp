@@ -15,6 +15,13 @@ Platform::Platform(Cube *c)
 	mmute = mc->mmute;
 }
 
+
+void Platform::win_animation()
+{
+
+}
+
+
 //TODO: Read from file
 void Platform::prepare_level()
 {
@@ -24,11 +31,44 @@ void Platform::prepare_level()
 
 	if( myfile == NULL)
 	{
-//		glRasterPos2i(100, 120);
-//		glColor4f(0, 0 , 1 ,0);
-		//glutPrint(1.0f, 1.0f, glutFonts[4], "Hello World!", 1.0f, 0.0f, 0.0f, 0.5f);
-	//	glutStrokeString(GLUT_BITMAP_HELVETICA_18, "HELLO");
 
+
+		int i = 0;
+		while(true)
+		{
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+
+		glPushMatrix();
+		glDisable(GL_LIGHTING);
+		glClear(GL_COLOR_BUFFER_BIT); // clear screen, to glClearColor()
+		glColor3f(1.0,1.0,1.0);
+		glRasterPos2f(0, 0);
+		string fin = "Finished Game!";
+		const char* a = fin.c_str();
+		glTranslatef(0, 0, -50);
+		//glRotatef(35, 1,0, 0);
+		//glRotatef(-20, 0, 1, 0);
+		glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*) a);
+		glPopMatrix();
+
+		glLoadIdentity();
+		glPushMatrix();
+		glTranslatef(0, 0, -50);
+		glRotatef(35, 1,0, 0);
+		glRotatef(-20-i, 0, 1, 0);
+		mc->drawCube();
+		draw_level();
+		glPopMatrix();
+		Sleep(10);
+		glutSwapBuffers();
+		i++;
+		if(i>360)
+		{ i -=360;
+		}
+		}
 	}
 	else{
 
@@ -207,6 +247,26 @@ void Platform::update(){
 				PlaySound(L"fall.wav", NULL, SND_ASYNC|SND_FILENAME);
 			}
 
+			for(int i = 0 ; i > -60; i--)
+			{
+
+				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+				glMatrixMode(GL_MODELVIEW);
+				glLoadIdentity();
+				
+				glPushMatrix();
+				glTranslatef(0, 0, -50);
+				glRotatef(35, 1,0, 0);
+				glRotatef(-20, 0, 1, 0);
+
+				draw_level();
+				mc->fall(i);
+				Sleep(10);
+				glPopMatrix();
+				glutSwapBuffers();
+			}
+
 		prepare_level();
 		break;
 	case TWO:
@@ -221,7 +281,26 @@ void Platform::update(){
 			std::cout<<"Won level";
 			if(!mmute)
 			{
-				PlaySound(L"win2.wav", NULL, SND_SYNC|SND_FILENAME);
+				PlaySound(L"win2.wav", NULL, SND_ASYNC|SND_FILENAME);
+			}
+			for(int i = 100 ; i > -1; i--)
+			{
+
+				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+				glMatrixMode(GL_MODELVIEW);
+				glLoadIdentity();
+				
+				glPushMatrix();
+				glTranslatef(0, 0, -50);
+				glRotatef(35, 1,0, 0);
+				glRotatef(-20, 0, 1, 0);
+
+				draw_level();
+				mc->disappear(i/100.0);
+				Sleep(10);
+				glPopMatrix();
+				glutSwapBuffers();
 			}
 
 			update_level();

@@ -49,6 +49,12 @@ public:
 	void change_position(int x, int z);
 
 	void set_sound();
+
+	// Make cube disappear
+	void disappear(float alpha);
+
+	// Make cube fall
+	void fall(GLfloat z);
 	
 };
 

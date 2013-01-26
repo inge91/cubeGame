@@ -222,3 +222,180 @@ void Cube::set_sound()
 }
 
 
+// Makes cube disappear gradually by changing alpha values
+void Cube::disappear(float alpha)
+{
+
+	glPushMatrix();
+	// Apply transformation and rotation in x and y direction to show right side
+	glTranslatef(mposx * (msize*2), 0, 0);
+	glTranslatef(0, 0, mposz * (msize *2));
+
+	int value;
+	std::list<int>::const_iterator iterator;
+	for(iterator = msequence.begin(); iterator != msequence.end(); ++iterator)
+	{
+		value = *iterator;
+		switch(value)
+		{
+		case X:
+		glRotatef(90, 0, 0, 1);
+		break;
+		case NEGX:
+		glRotatef(-90, 0, 0, 1);
+		break;
+		case Y:
+		glRotatef(90, 1, 0, 0);
+		break;
+		case NEGY:
+		glRotatef(-90, 1, 0, 0);
+		break;
+		
+		}
+	}
+	glBegin(GL_QUADS);
+
+	// Draw cube on center
+	// This is the front
+	glColor4f(1, 0, 0, alpha);
+	glNormal3f(0, 0, 1);
+	glVertex3f(-msize, -msize, msize);
+	glVertex3f( msize, -msize, msize);
+	glVertex3f( msize,  msize, msize);
+	glVertex3f(-msize,  msize, msize);
+
+
+	// This is the back
+	glColor4f(1, 0, 0, alpha);
+	glNormal3f(0, 0, -1);
+	glVertex3f(-msize, -msize, -msize);
+	glVertex3f( msize, -msize, -msize);
+	glVertex3f( msize,  msize, -msize);
+	glVertex3f(-msize,  msize, -msize);
+
+	// This is the top
+	glColor4f(0, 1, 0, alpha);
+	glNormal3f(0, 1, 0);
+	glVertex3f(-msize, msize, -msize);
+	glVertex3f( msize, msize, -msize);
+	glVertex3f( msize, msize, msize);
+	glVertex3f(-msize, msize, msize);
+
+	// This is the bottom
+	glColor4f(0, 1, 0, alpha);
+	glNormal3f(0, -1, 0);
+	glVertex3f(-msize, -msize, -msize);
+	glVertex3f( msize, -msize, -msize);
+	glVertex3f( msize, -msize, msize);
+	glVertex3f(-msize, -msize, msize);
+
+
+	// This is the left
+	glColor4f(0, 0, 1, alpha);
+	glNormal3f(-1 , 0, 0);
+	glVertex3f(-msize, -msize, -msize);
+	glVertex3f(-msize,  msize, -msize);
+	glVertex3f(-msize,  msize, msize);
+	glVertex3f(-msize, -msize, msize);
+
+
+	// This is the right
+	glColor4f(0, 0, 1, alpha);
+	glNormal3f(1 , 0, 0);
+	glVertex3f(msize, -msize, -msize);
+	glVertex3f(msize,  msize, -msize);
+	glVertex3f(msize,  msize, msize);
+	glVertex3f(msize, -msize, msize);
+	glEnd();
+	glPopMatrix();
+	
+	}
+
+
+void Cube::fall(GLfloat z)
+{
+
+	glPushMatrix();
+	// Apply transformation and rotation in x and y direction to show right side
+	glTranslatef(mposx * (msize*2), z, 0);
+	glTranslatef(0, 0, mposz * (msize *2));
+
+	int value;
+	std::list<int>::const_iterator iterator;
+	for(iterator = msequence.begin(); iterator != msequence.end(); ++iterator)
+	{
+		value = *iterator;
+		switch(value)
+		{
+		case X:
+		glRotatef(90, 0, 0, 1);
+		break;
+		case NEGX:
+		glRotatef(-90, 0, 0, 1);
+		break;
+		case Y:
+		glRotatef(90, 1, 0, 0);
+		break;
+		case NEGY:
+		glRotatef(-90, 1, 0, 0);
+		break;
+		
+		}
+	}
+	glBegin(GL_QUADS);
+
+	// Draw cube on center
+	// This is the front
+	glColor3f(1, 0, 0);
+	glNormal3f(0, 0, 1);
+	glVertex3f(-msize, -msize, msize);
+	glVertex3f( msize, -msize, msize);
+	glVertex3f( msize,  msize, msize);
+	glVertex3f(-msize,  msize, msize);
+
+
+	// This is the back
+	glColor3f(1, 0, 0);
+	glNormal3f(0, 0, -1);
+	glVertex3f(-msize, -msize, -msize);
+	glVertex3f( msize, -msize, -msize);
+	glVertex3f( msize,  msize, -msize);
+	glVertex3f(-msize,  msize, -msize);
+
+	// This is the top
+	glColor3f(0, 1, 0);
+	glNormal3f(0, 1, 0);
+	glVertex3f(-msize, msize, -msize);
+	glVertex3f( msize, msize, -msize);
+	glVertex3f( msize, msize, msize);
+	glVertex3f(-msize, msize, msize);
+
+	// This is the bottom
+	glColor3f(0, 1, 0);
+	glNormal3f(0, -1, 0);
+	glVertex3f(-msize, -msize, -msize);
+	glVertex3f( msize, -msize, -msize);
+	glVertex3f( msize, -msize, msize);
+	glVertex3f(-msize, -msize, msize);
+
+
+	// This is the left
+	glColor3f(0, 0, 1);
+	glNormal3f(-1 , 0, 0);
+	glVertex3f(-msize, -msize, -msize);
+	glVertex3f(-msize,  msize, -msize);
+	glVertex3f(-msize,  msize, msize);
+	glVertex3f(-msize, -msize, msize);
+
+
+	// This is the right
+	glColor3f(0, 0, 1);
+	glNormal3f(1 , 0, 0);
+	glVertex3f(msize, -msize, -msize);
+	glVertex3f(msize,  msize, -msize);
+	glVertex3f(msize,  msize, msize);
+	glVertex3f(msize, -msize, msize);
+
+	glEnd();
+	glPopMatrix();
+}

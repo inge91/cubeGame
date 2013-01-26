@@ -65,6 +65,7 @@ void initRendering() {
 	glEnable(GL_LIGHT0);
 	glEnable(GL_NORMALIZE);
 	glEnable(GL_COLOR_MATERIAL);
+glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); glEnable( GL_BLEND ); glClearColor(0.0,0.0,0.0,0.0);
 
 }
 
@@ -128,9 +129,6 @@ void drawScene() {
 	glRotatef(35, 1,0, 0);
 	glRotatef(-20, 0, 1, 0);
 
-	glColor3f(1, 1, 1);
-	glRasterPos3f(100, 100, 0);
-	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned char*)"some text");
 	
 
 	// Display some text
