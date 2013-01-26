@@ -8,6 +8,11 @@
 #include "platform.h"
 #include <windows.h>
 
+// prototype
+void drawScene();
+void instruction_screen();
+
+
 using namespace std;
 
 GLfloat boxsize = 2;
@@ -20,6 +25,7 @@ int width = 800;
 int height = 600;
 Cube c = Cube(mute);
 Platform p = Platform(&c);
+
 void handleKeypress(unsigned char key, int x, int y) {
 	switch (key) {
 	case 100:
@@ -78,7 +84,6 @@ void handleResize(int w, int h) {
 
 void draw_meta()
 {
-
 	glPushMatrix();
 	glRotatef(-35, 1,0, 0);
 	glRotatef(20, 0, 1, 0);
@@ -108,12 +113,280 @@ void draw_meta()
 	glEnable(GL_LIGHTING);
 
 	glPopMatrix();
+}
 
+GLfloat msize = 0.5;
+GLfloat titledegrees = 0;
+GLfloat titleposition = 0.25;
 
+// Handle the keys pressed on the title screen
+void handle_titlescreen_key(unsigned char key, int x, int y)
+{
+	switch(key)
+	{
+	case 119:
+	case 38:
+		if(titleposition != 0.25)
+		{
 
+			titleposition += 2;
+		}
+		break;
+	case 's':
+		if(titleposition != (0.25 - 3*2))
+		{
+
+			titleposition -= 2;
+		}
+		break;
+	case 13:
+		// Make the selection automatically the above one
+		if(titleposition == 0.25 || titleposition == -1.75)
+		{
+			
+			titleposition = 0.25;
+			glutDisplayFunc(drawScene);
+			glutKeyboardFunc(handleKeypress);
+		}
+		else if (titleposition == -3.75)
+		{
+			titleposition = 0.25;
+			glutDisplayFunc(instruction_screen);
+
+		}
+		else if(titleposition == -5.75)
+		{
+			exit(0);
+		}
+
+		break;
+
+	case 27: //Escape key
+			exit(0);
+			break;
+	}
 
 }
 
+
+void instruction_screen()
+{
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	
+	// Establish view 
+	glTranslatef(0, 0, -50);
+
+	glDisable(GL_LIGHTING);
+    glClear(GL_COLOR_BUFFER_BIT); // clear screen, to glClearColor()
+    glColor3f(1.0,1.0,1.0);
+	glRasterPos2f(-10,2);
+	int len, i;
+	string fin = "The objective is to work from the beginning to the end position (the blue tile)." 
+		"\n Once you visit a tile it will disappear.\n Some tiles can be visited multiple times, depending on " 
+		" the color. \n All tiles have to be cleared to win the level.\n You have infinite lives."
+		"\n\n Press m to mute sounds. \n Press r to restart level. ";
+	const char* a = fin.c_str();
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*) a);
+	glutSwapBuffers();
+
+}
+
+GLfloat mgrow =0.5;
+bool growing = true;
+
+void screen_title()
+{
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	
+	// Establish view 
+	glTranslatef(0, 0, -50);
+
+	glDisable(GL_LIGHTING);
+    glClear(GL_COLOR_BUFFER_BIT); // clear screen, to glClearColor()
+    glColor3f(1.0,1.0,1.0);
+	glRasterPos2f(-2,0);
+	int len, i;
+	string fin = "Continue";
+	const char* a = fin.c_str();
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*) a);
+
+	string fin2 = "New Game" ;
+	const char* a2 = fin2.c_str();
+	glRasterPos2f(-2, -2);
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*) a2);
+
+	string fin3 = "Instructions" ;
+	const char* a3 = fin3.c_str();
+	glRasterPos2f(-2, -4);
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*) a3);
+
+	string fin4 = "Exit Game" ;
+	const char* a4 = fin4.c_str();
+	glRasterPos2f(-2, -6);
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*) a4);
+
+	string fin5 = "The Amazing Cube Game!" ;
+	const char* a5 = fin5.c_str();
+	glRasterPos2f(-4, 16);
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*) a5);
+
+	// Cursor cube
+	glPushMatrix();
+	glTranslatef(-3, titleposition, 0);
+	glRotatef(titledegrees, 1, 1, 0);
+
+	// Draw cube on center
+	// This is the front
+	glBegin(GL_QUADS);
+	glColor3f(1, 0, 0);
+	glNormal3f(0, 0, 1);
+	glVertex3f(-msize, -msize, msize);
+	glVertex3f( msize, -msize, msize);
+	glVertex3f( msize,  msize, msize);
+	glVertex3f(-msize,  msize, msize);
+
+	// This is the back
+	glColor3f(1, 0, 0);
+	glNormal3f(0, 0, -1);
+	glVertex3f(-msize, -msize, -msize);
+	glVertex3f( msize, -msize, -msize);
+	glVertex3f( msize,  msize, -msize);
+	glVertex3f(-msize,  msize, -msize);
+
+	// This is the top
+	glColor3f(0, 1, 0);
+	glNormal3f(0, 1, 0);
+	glVertex3f(-msize, msize, -msize);
+	glVertex3f( msize, msize, -msize);
+	glVertex3f( msize, msize, msize);
+	glVertex3f(-msize, msize, msize);
+
+	// This is the bottom
+	glColor3f(0, 1, 0);
+	glNormal3f(0, -1, 0);
+	glVertex3f(-msize, -msize, -msize);
+	glVertex3f( msize, -msize, -msize);
+	glVertex3f( msize, -msize, msize);
+	glVertex3f(-msize, -msize, msize);
+
+
+	// This is the left
+	glColor3f(0, 0, 1);
+	glNormal3f(-1 , 0, 0);
+	glVertex3f(-msize, -msize, -msize);
+	glVertex3f(-msize,  msize, -msize);
+	glVertex3f(-msize,  msize, msize);
+	glVertex3f(-msize, -msize, msize);
+
+
+	// This is the right
+	glColor3f(0, 0, 1);
+	glNormal3f(1 , 0, 0);
+	glVertex3f(msize, -msize, -msize);
+	glVertex3f(msize,  msize, -msize);
+	glVertex3f(msize,  msize, msize);
+	glVertex3f(msize, -msize, msize);
+	glEnd();
+	glPopMatrix();
+	titledegrees += 0.5;
+	if(titledegrees > 360)
+	{
+		titledegrees -= 360;
+	}
+
+	// Decorative cube
+	glPushMatrix();
+	glTranslatef(0, 8, 0);
+	glRotatef(titledegrees, 0.5, 0, 1);
+
+	// Draw cube on center
+	// This is the front
+	glBegin(GL_QUADS);
+	glColor3f(1, 0, 0);
+	glNormal3f(0, 0, 1);
+	glVertex3f(-mgrow, -mgrow, mgrow);
+	glVertex3f( mgrow, -mgrow, mgrow);
+	glVertex3f( mgrow,  mgrow, mgrow);
+	glVertex3f(-mgrow,  mgrow, mgrow);
+
+	// This is the back
+	glColor3f(1, 0, 0);
+	glNormal3f(0, 0, -1);
+	glVertex3f(-mgrow, -mgrow, -mgrow);
+	glVertex3f( mgrow, -mgrow, -mgrow);
+	glVertex3f( mgrow,  mgrow, -mgrow);
+	glVertex3f(-mgrow,  mgrow, -mgrow);
+
+	// This is the top
+	glColor3f(0, 1, 0);
+	glNormal3f(0, 1, 0);
+	glVertex3f(-mgrow, mgrow, -mgrow);
+	glVertex3f( mgrow, mgrow, -mgrow);
+	glVertex3f( mgrow, mgrow, mgrow);
+	glVertex3f(-mgrow, mgrow, mgrow);
+
+	// This is the bottom
+	glColor3f(0, 1, 0);
+	glNormal3f(0, -1, 0);
+	glVertex3f(-mgrow, -mgrow, -mgrow);
+	glVertex3f( mgrow, -mgrow, -mgrow);
+	glVertex3f( mgrow, -mgrow, mgrow);
+	glVertex3f(-mgrow, -mgrow, mgrow);
+
+
+	// This is the left
+	glColor3f(0, 0, 1);
+	glNormal3f(-1 , 0, 0);
+	glVertex3f(-mgrow, -mgrow, -mgrow);
+	glVertex3f(-mgrow,  mgrow, -mgrow);
+	glVertex3f(-mgrow,  mgrow, mgrow);
+	glVertex3f(-mgrow, -mgrow, mgrow);
+
+
+	// This is the right
+	glColor3f(0, 0, 1);
+	glNormal3f(1 , 0, 0);
+	glVertex3f(mgrow, -mgrow, -mgrow);
+	glVertex3f(mgrow,  mgrow, -mgrow);
+	glVertex3f(mgrow,  mgrow, mgrow);
+	glVertex3f(mgrow, -mgrow, mgrow);
+	glEnd();
+	glPopMatrix();
+
+	// Handle the growing and slinking aspect
+	if(growing)
+	{
+		if(mgrow > 4)
+		{
+			growing = false;
+			mgrow -= 0.005;
+		}
+		else{
+		
+			mgrow += 0.005;
+		}
+
+	}
+	else
+	{
+		if(mgrow <0.1)
+		{
+			growing = true;
+			mgrow += 0.005;
+		}
+		else{
+			mgrow -= 0.005;
+		}
+	}
+
+	glutSwapBuffers();
+}
 
 
 void drawScene() {
@@ -128,8 +401,6 @@ void drawScene() {
 	glTranslatef(0, 0, -50);
 	glRotatef(35, 1,0, 0);
 	glRotatef(-20, 0, 1, 0);
-
-	
 
 	// Display some text
 	draw_meta();
@@ -147,6 +418,8 @@ void drawScene() {
 	glutSwapBuffers();
 }
 
+
+
 //Called every 25 milliseconds
 void update(int value) {
 	glutPostRedisplay();
@@ -161,11 +434,12 @@ int main(int argc, char** argv) {
 	//glutGameModeString("1920x1080");
 	std::cout<<glutGameModeGet(GLUT_GAME_MODE_POSSIBLE)<<endl;
 
-	glutEnterGameMode(); 
-	//glutFullScreen();
+	//glutEnterGameMode(); 
+	glutFullScreen();
 	initRendering();
-	glutDisplayFunc(drawScene);
-	glutKeyboardFunc(handleKeypress);
+	//glutDisplayFunc(drawScene);
+	glutDisplayFunc(screen_title);
+	glutKeyboardFunc(handle_titlescreen_key);
 	glutReshapeFunc(handleResize);
 	glutTimerFunc(2, update, 0);
 	
