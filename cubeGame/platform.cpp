@@ -41,9 +41,8 @@ void Platform::credit_keys(unsigned char key, int x, int y)
 	switch(key)
 	{
 	case 27:
-		std::cout<<"Hello";
-		//glutKeyboardFunc(handle_titlescreen_key);
-		//glutDisplayFunc(screen_title);
+		glutKeyboardFunc(handle_titlescreen_key);
+		glutDisplayFunc(screen_title);
 
 	}
 
@@ -107,7 +106,6 @@ void Platform::draw()
 }
 
 
-//TODO: Read from file
 void Platform::prepare_level()
 {
 	string leveltxt = string("level") +  string(mlevelno) + string(".txt");

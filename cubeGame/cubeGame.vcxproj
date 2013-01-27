@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cube.h" />
+    <ClInclude Include="main.h" />
     <ClInclude Include="platform.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />

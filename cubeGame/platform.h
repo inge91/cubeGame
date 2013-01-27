@@ -8,6 +8,7 @@
 #include <fstream>
 #include <iostream>
 #include <stdlib.h>
+#include "main.h"
 #include <string>
 #include <GL/freeglut.h>
 #include <GL/glut.h>
