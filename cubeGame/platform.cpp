@@ -62,7 +62,7 @@ void Platform::draw()
 		glTranslatef(0, 0, -50);
 		glColor3f(1.0,1.0,1.0);
 		glRasterPos2f(-5, pos);
-		string fin = "Finished the Amazing Cube Game \n" 
+		string fin = "Finished Six Sides of Destruction \n" 
 		             "An Inge Becht production\n\n"
 					 "Graphics: Inge\n"
 					 "Sounds: Inge (with use of sfxr)\n"
@@ -124,7 +124,7 @@ void Platform::prepare_level()
 	// Update the password
 	int level;
 	level = mlevelno[0] - '0';
-	if(level > 1)
+	if(level > 0)
 	{
 		string password  = "pwd.txt";
 		ifstream oldpwd (password);

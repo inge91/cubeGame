@@ -77,7 +77,9 @@ void handleKeypress(unsigned char key, int x, int y) {
 			break;
 
 	case 27: //Escape key
-			exit(0);
+		glutDisplayFunc(screen_title);
+		glutKeyboardFunc(handle_titlescreen_key);
+			
 	}
 }
 
@@ -131,6 +133,9 @@ void handle_titlescreen_key(unsigned char key, int x, int y)
 				}
 
 			}
+			else{
+			p.change_mlevelno(1);
+			}
 			
 			titleposition = 0.25;
 			p.prepare_level();
@@ -149,6 +154,11 @@ void handle_titlescreen_key(unsigned char key, int x, int y)
 			exit(0);
 		}
 
+		break;
+	case 109:
+		mute = !mute;
+		c.set_sound();
+		p.set_sound();
 		break;
 
 	case 27: //Escape key
@@ -190,7 +200,7 @@ void instruction_screen()
 	string fin = "The objective is to work from the beginning to the end position (the blue tile)." 
 		"\n Once you visit a tile it will disappear.\n Some tiles can be visited multiple times, depending on " 
 		" the color. \n All tiles have to be cleared to win the level.\n You have infinite lives."
-		"\n\n Press m to mute sounds. \n Press r to restart level. ";
+		"\n\n Press m to mute sounds. \n Press r to restart level.\n Progresse is saved automatically ";
 	const char* a = fin.c_str();
 	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*) a);
 	glutSwapBuffers();
@@ -232,7 +242,7 @@ void screen_title()
 	glRasterPos2f(-2, -6);
 	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*) a4);
 
-	string fin5 = "The Amazing Cube Game!" ;
+	string fin5 = "Six Sides of Destruction" ;
 	const char* a5 = fin5.c_str();
 	glRasterPos2f(-4, 16);
 	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*) a5);
@@ -406,13 +416,10 @@ void screen_title()
 
 void draw_meta()
 {
-	glPushMatrix();
-	glRotatef(-35, 1,0, 0);
-	glRotatef(20, 0, 1, 0);
 	glDisable(GL_LIGHTING);
     glClear(GL_COLOR_BUFFER_BIT); // clear screen, to glClearColor()
     glColor3f(1.0,1.0,1.0);
-	glRasterPos2f(-15, -23.5);
+	glRasterPos2f(-15, -20);
 	int len, i;
 	string s = "Level: ";
 	string c = p.get_level();
@@ -429,12 +436,11 @@ void draw_meta()
 		fin2 = "Press m to mute";
 	}
 	const char* a2 = fin2.c_str();
-	glRasterPos2f(0, -21);
+	glRasterPos2f(-2, -20);
 	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*) a2);
 
 	glEnable(GL_LIGHTING);
 
-	glPopMatrix();
 }
 
 
@@ -445,14 +451,15 @@ void drawScene() {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	
-
-	// Establish view 
 	glTranslatef(0, 0, -50);
+	draw_meta();
+
+	glPushMatrix();
+	// Establish view 
 	glRotatef(35, 1,0, 0);
 	glRotatef(-20, 0, 1, 0);
 
 	// Display some text
-	draw_meta();
 
 
 	// Draws the cube and handles movement  
@@ -463,6 +470,7 @@ void drawScene() {
 
 	// Draw the level
 	p.draw_level();
+	glPopMatrix();
 	
 	glutSwapBuffers();
 }
@@ -478,7 +486,7 @@ int main(int argc, char** argv) {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutGameModeGet(GLUT_GAME_MODE_POSSIBLE);
-	if(GLUT_GAME_MODE_POSSIBLE && 0)
+	if(GLUT_GAME_MODE_POSSIBLE)
 	{
 		glutEnterGameMode(); 
 	}
@@ -493,7 +501,7 @@ int main(int argc, char** argv) {
 		   height = desktop.bottom-65;
 			glutInitWindowSize(desktop.right, desktop.bottom-55);
 		glutInitWindowPosition (0,0);
-		glutCreateWindow("Cube Gameo");
+		glutCreateWindow("Six Sides of Destruction");
 	}
 	initRendering();
 	glutDisplayFunc(screen_title);
