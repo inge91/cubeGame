@@ -11,6 +11,11 @@ void drawCallback()
   g_CurrentInstance->draw();
 }
 
+void keyCallback(unsigned char key, int x, int y)
+{
+	g_CurrentInstance->credit_keys(key, x, y);
+}
+
 Platform::Platform(Cube *c)
 {
 	mc = c;
@@ -27,6 +32,21 @@ void Platform::setupDrawCallback()
 {
   g_CurrentInstance = this;
   glutDisplayFunc(::drawCallback);
+  glutKeyboardFunc(::keyCallback);
+}
+
+
+void Platform::credit_keys(unsigned char key, int x, int y)
+{
+	switch(key)
+	{
+	case 27:
+		std::cout<<"Hello";
+		//glutKeyboardFunc(handle_titlescreen_key);
+		//glutDisplayFunc(screen_title);
+
+	}
+
 }
 
 GLfloat pos = -25;
@@ -70,9 +90,12 @@ void Platform::draw()
 		draw_level();
 		glPopMatrix();
 		Sleep(10);
-		if(pos < 40)
+		if(pos < 100)
 		{
 			pos += 0.02;
+		}
+		else{
+		// Get out of this motion
 		}
 		mdegrees++;
 
@@ -87,6 +110,17 @@ void Platform::draw()
 //TODO: Read from file
 void Platform::prepare_level()
 {
+	string leveltxt = string("level") +  string(mlevelno) + string(".txt");
+	ifstream myfile (leveltxt);
+
+	if( myfile == NULL)
+	{
+		setupDrawCallback();
+
+	}
+	else{
+
+
 	std::cout<<"Level to load: ";
 	std::cout<<mlevelno<<endl;
 	// Update the password
@@ -112,16 +146,6 @@ void Platform::prepare_level()
 		printf("Stored password for level %d", lvl);
 
 	}
-
-	string leveltxt = string("level") +  string(mlevelno) + string(".txt");
-	ifstream myfile (leveltxt);
-
-	if( myfile == NULL)
-	{
-		setupDrawCallback();
-
-	}
-	else{
 
 	//myfile.open("level1.txt", ios::out);
 

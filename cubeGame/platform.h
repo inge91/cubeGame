@@ -29,6 +29,7 @@ class Platform
 		string get_level();
 
 		void draw();
+		void credit_keys(unsigned char key, int x, int y);
 
 		int mdegrees;
 		void change_mlevelno(int lvl);
@@ -58,7 +59,6 @@ class Platform
 		// returns true if still unvisited tiles
 		// else false
 		bool unattended();
-
 		bool mmute;
 
 

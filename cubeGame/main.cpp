@@ -78,7 +78,7 @@ void handleKeypress(unsigned char key, int x, int y) {
 		
 		break;
 	case 115:
-if(c.mmovement == c.NONE)
+		if(c.mmovement == c.NONE)
 		{
 		c.mmovement = c.DOWN;
 		}	
