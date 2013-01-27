@@ -31,6 +31,10 @@ class Platform
 		void draw();
 
 		int mdegrees;
+		void change_mlevelno(int lvl);
+		
+		// Level fills the level vector
+		void prepare_level();
 		
 	private:
 
@@ -44,8 +48,6 @@ class Platform
 		int mlevel [7][7];
 		string mlevelno;
 
-		// Level fills the level vector
-		void prepare_level();
 		// Update to next level
 		void update_level();
 

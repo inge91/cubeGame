@@ -19,7 +19,6 @@ Platform::Platform(Cube *c)
 	mlevelno = "1";
 	mminx = -14;
 	mmaxz = 14;
-	prepare_level();
 	mmute = mc->mmute;
 	mdegrees = 0;
 }
@@ -30,28 +29,39 @@ void Platform::setupDrawCallback()
   glutDisplayFunc(::drawCallback);
 }
 
-
+GLfloat pos = -25;
+// The credits
 void Platform::draw()
 {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 
 		glPushMatrix();
 		glDisable(GL_LIGHTING);
 		glClear(GL_COLOR_BUFFER_BIT); // clear screen, to glClearColor()
-		glColor3f(1.0,1.0,1.0);
-		glRasterPos2f(0, 0);
-		string fin = "Finished Game!";
-		const char* a = fin.c_str();
 		glTranslatef(0, 0, -50);
-		//glRotatef(35, 1,0, 0);
-		//glRotatef(-20, 0, 1, 0);
+		glColor3f(1.0,1.0,1.0);
+		glRasterPos2f(-5, pos);
+		string fin = "Finished the Amazing Cube Game \n" 
+		             "An Inge Becht production\n\n"
+					 "Graphics: Inge\n"
+					 "Sounds: Inge (with use of sfxr)\n"
+					 "Executive Producter: Inge\n"
+					 "Debugger: Inge\n"
+					 "Moral Support: Inge\n"
+					 "Relaxation advisor: Inge\n"
+					 "Inge: inge?"
+					 "\n\n\n\n\n\n\n\nTo be continued..."
+					 "\n\n\n\n\n\n\n\nOr is it...."
+					 "\n\n\n\n Muhahahaha";
+					
+		const char* a = fin.c_str();
 		glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*) a);
 		glPopMatrix();
+		glEnable(GL_LIGHTING);
 
-		glLoadIdentity();
+		//glLoadIdentity();
 		glPushMatrix();
 		glTranslatef(0, 0, -50);
 		glRotatef(35, 1,0, 0);
@@ -60,17 +70,48 @@ void Platform::draw()
 		draw_level();
 		glPopMatrix();
 		Sleep(10);
-		glutSwapBuffers();
-		mdegrees++;
-		if(mdegrees>360)
-		{ mdegrees -=360;
+		if(pos < 40)
+		{
+			pos += 0.02;
 		}
+		mdegrees++;
+
+		if(mdegrees>360)
+		{ 
+			mdegrees -=360;
+		}
+		glutSwapBuffers();
 }
 
 
 //TODO: Read from file
 void Platform::prepare_level()
 {
+	std::cout<<"Level to load: ";
+	std::cout<<mlevelno<<endl;
+	// Update the password
+	int level;
+	level = mlevelno[0] - '0';
+	if(level > 1)
+	{
+		string password  = "pwd.txt";
+		ifstream oldpwd (password);
+
+		// If there already is a password file remove it
+		if( oldpwd != NULL)
+		{
+			remove("pwd.txt");
+		}
+
+		char b = (char) level;
+		int lvl = b;
+		
+		std::ofstream outfile (password);
+		outfile << b << std::endl;
+		outfile.close();
+		printf("Stored password for level %d", lvl);
+
+	}
 
 	string leveltxt = string("level") +  string(mlevelno) + string(".txt");
 	ifstream myfile (leveltxt);
@@ -445,3 +486,14 @@ void Platform::set_sound()
 	mmute = !mmute;
 }
 
+
+void Platform::change_mlevelno(int lvl)
+{
+	int level;
+	level = mlevelno[0] - '0';
+	level = lvl;
+	char l[10];
+	_itoa(level, l, 10);
+	mlevelno = string(l);
+	cout<<mlevelno;
+}
