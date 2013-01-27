@@ -91,15 +91,20 @@ void handle_titlescreen_key(unsigned char key, int x, int y)
 	case 38:
 		if(titleposition != 0.25)
 		{
-
+			if(!mute)
+			{
+				PlaySound(L"select.wav", NULL, SND_ASYNC|SND_FILENAME);
+			}
 			titleposition += 2;
 		}
 		break;
 	case 's':
 		if(titleposition != (0.25 - 3*2))
 		{
-
-			titleposition -= 2;
+			if(!mute){
+				PlaySound(L"select.wav", NULL, SND_ASYNC|SND_FILENAME);
+			}
+				titleposition -= 2;
 		}
 		break;
 	case 13:
@@ -231,6 +236,21 @@ void screen_title()
 	const char* a5 = fin5.c_str();
 	glRasterPos2f(-4, 16);
 	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*) a5);
+
+
+
+	string fin6 = "" ;
+	if(mute)
+	{
+		fin6 = "Press m to unmute";
+	}
+	else{
+		fin6 = "Press m to mute";
+	}
+	const char* a6 = fin6.c_str();
+	glRasterPos2f(-2, -20);
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*) a6);
+
 
 	// Cursor cube
 	glPushMatrix();
@@ -471,8 +491,9 @@ int main(int argc, char** argv) {
 		   GetWindowRect(hDesktop, &desktop);
 		   width = desktop.right;
 		   height = desktop.bottom-65;
-			glutInitWindowSize(desktop.right, desktop.bottom-65);
-		glutCreateWindow("Cube Game");
+			glutInitWindowSize(desktop.right, desktop.bottom-55);
+		glutInitWindowPosition (0,0);
+		glutCreateWindow("Cube Gameo");
 	}
 	initRendering();
 	glutDisplayFunc(screen_title);
